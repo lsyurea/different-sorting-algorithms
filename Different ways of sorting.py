@@ -27,7 +27,7 @@ def sizing(matrix):
     def arrange(arr):
         if len(arr) < 3:
             return arr
-        return [arr[-1]] + arrange(arr[:-2]) + [arr[-2]]
+        return [arr[-2]] + arrange(arr[:-2]) + [arr[-1]]
 
     m, n = len(matrix), len(matrix[0])
     new_matrix = []
@@ -36,7 +36,7 @@ def sizing(matrix):
         sorted = sorted[n:]
         new_matrix.append(arrange(row_involved))
 
-    return new_matrix
+    return arrange(new_matrix)
 
 #print(sizing([[1, 4, 5], [2, 6, 3], [7, 9, 8]]))
-#[[3, 1, 2], [6, 4, 5], [9, 7, 8]]
+#[[5, 4, 6], [2, 1, 3], [8, 7, 9]]
