@@ -40,3 +40,55 @@ def sizing(matrix):
 
 #print(sizing([[1, 4, 5], [2, 6, 3], [7, 9, 8]]))
 #[[5, 4, 6], [2, 1, 3], [8, 7, 9]]
+
+
+#original sizing command for uniform grps/parade
+def sizing_org(matrix):
+    m, n = len(matrix), len(matrix[0])
+    arr = [element for row in matrix for element in row]
+    arr.sort() #use whatever sorting algorithm is efficient
+    satu = arr[::2] #1, 3, 2 from the back (shortest in the middle)
+    dua = arr[1::2] # 2, 3, 1 from the front (tallest in the middle)
+
+    def arrange_132(arr, row):
+        if len(arr) == 0:
+            return []
+        elif len(arr) == 1:
+            return arr
+        temp = arr[:-row - 1:-1] #from the back
+        def helper(arr):
+            if len(arr) == 0:
+                return []
+            elif len(arr) == 1:
+                return arr
+            return [arr[0]] + helper(arr[2:]) + [arr[1]] # 1, 3, 2 recursively
+
+        return helper(temp) + arrange_132(arr[:-row], row)
+
+    def arrange_231(arr, row):
+        if len(arr) == 0:
+            return []
+        elif len(arr) == 1:
+            return arr
+        temp = arr[:row] #from the front
+
+        def helper(arr):
+            if len(arr) == 0:
+                return []
+            elif len(arr) == 1:
+                return arr
+            return [arr[1]] + helper(arr[2:]) + [arr[0]]  # 2, 3, 1 recursively
+
+        return helper(temp) + arrange_132(arr[row:], row)
+
+    new_arr = arrange_132(satu, m) + arrange_231(dua, m)
+    new_matrix = [[] for i in range(m)]
+    while new_arr:
+        for row in range(m):
+            new_matrix[m - row - 1].append(new_arr.pop())
+
+    return new_matrix
+#
+# print(sizing_org([[1, 4, 5], [2, 6, 3], [7, 9, 8]]))
+
+#[[6, 3, 9], [2, 1, 5], [8, 4, 7]]
