@@ -1,5 +1,9 @@
 # different-sorting-algorithms
 
+#sorting algorithm similar to sizing command
+
+
+
 def sizing(matrix):
     new_arr = []
     for row in matrix:
